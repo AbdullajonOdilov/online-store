@@ -9,7 +9,7 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
   <!-- IonIcons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
@@ -54,7 +54,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../index.html" class="brand-link">
-      <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="/static/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Online Ombor</span>
     </a>
 
@@ -63,7 +63,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="/static/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Felix</a>
@@ -110,8 +110,8 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-             <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Clients</li>
+             <li class="breadcrumb-item"><a href="/sections/">Home</a></li>
+              <li class="breadcrumb-item"><a href="/sections/mahsulotlar/" >Products</a></li>
               <li class="breadcrumb-item"><a href="/logout/">Logout</a></li>
             </ol>
           </div><!-- /.col -->
@@ -136,6 +136,7 @@
                             <th scope="col" style="text-align: center;">Do'kon nomi</th>
                             <th scope="col" style="text-align: center;">Telefon raqami</th>
                             <th scope="col" style="text-align: center;">Manzili</th>
+                            <th scope="col" style="text-align: center;">Qarzi</th>
                             <th scope="col" style="text-align: center;"></th>
                         </tr>
                     </thead>
@@ -147,7 +148,11 @@
                             <td>{{i.nom}}</td>
                             <td>{{i.tel}}</td>
                             <td>{{i.manzil}}</td>
-                            <td><a href="#"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
+                            <td>{{i.qarz}}</td>
+                            {% if request.user.is_staff %}
+                            <td><a href="/sections/c_update/{{i.id}}/"><button type="submit" class="btn btn-danger" data-toggle="modal">Tahrirlash</button></a></td>
+                            <td><a href="/sections/c_delete/{{i.id}}/"><button type="submit" class="btn btn-danger" data-toggle="modal">Delete</button></a></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -167,7 +172,7 @@
           </div>
     
           <!-- Modal body -->
-          <form action="#" id="new-product-form" >
+          <form action="/sections/clientlar/" method=post id="new-product-form" > {% csrf_token %}
             <div class="modal-body">
               <label for="new-product-name">FIO:</label>
               <input type="text" name="client_name" placeholder="Mijoz to'liq ismi..." id="new-product-name" class="form-control" required>
@@ -176,10 +181,13 @@
               <input type="text" name="client_shop" placeholder="Do'kon nomi..." id="new-product-brend" class="form-control" required>
               <br>
               <label for="new-product-name">Telefon raqami:</label>
-              <input type="text" name="client_phone" placeholder="Telefon raqami..." id="new-product-price" class="form-control" required>
+              <input type="number" name="client_phone" placeholder="Telefon raqami..." id="new-product-price" class="form-control" required>
               <br>
               <label for="new-product-name">Manzili:</label>
-              <input type="text" name="client_address" placeholder="Mijoz manzili..." id="new-product-amount" class="form-control" required>
+              <input type="text" name="client_address" placeholder="Mijoz manzili..." id="new-product-add" class="form-control" required>
+              <br>
+                <label for="new-product-name">Qarz:</label>
+              <input type="number" name="client_dept" placeholder="Mijoz qarzi..." id="new-product-amount" class="form-control" required>
               <br>
             </div>
     
